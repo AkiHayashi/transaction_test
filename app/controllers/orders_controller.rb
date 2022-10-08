@@ -10,9 +10,8 @@ class OrdersController < ApplicationController
   end
 
   def create
+    @order = current_user.orders.build(order_params)
     ActiveRecord::Base.transaction do
-      @order = current_user.orders.build(order_params)
-      @order.lock!
       @order.save
       @order.update_total_quantity
     end
